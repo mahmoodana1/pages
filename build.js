@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SITE = 'https://mahmoodana1.github.io/pages/';
+const SITE = 'https://clinicline.help/';
 const LANGS = ['he', 'en', 'ar'];
 const DIRS = { he: '', en: 'en/', ar: 'ar/' };
 const SHOTS = ['patient', 'schedule', 'payments', 'types']; // assets/shots/<lang>-<name>.webp, in tour order

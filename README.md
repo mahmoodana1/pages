@@ -1,7 +1,7 @@
 # ClinicLine site
 
 The public website for ClinicLine, dental clinic software for Hebrew, Arabic and English clinics.
-Live at https://mahmoodana1.github.io/pages/ (Hebrew), `/en/` and `/ar/`.
+Live at https://clinicline.help/ (Hebrew), `/en/` and `/ar/`.
 
 Plain HTML, CSS and a little JavaScript. No tracking, no cookies, and the fonts are hosted here: Manrope (Latin, including the ClinicLine wordmark), Heebo (Hebrew) and Cairo (Arabic).
 
