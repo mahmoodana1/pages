@@ -11,7 +11,8 @@ const SITE = 'https://mahmoodana1.github.io/pages/';
 const LANGS = ['he', 'en', 'ar'];
 const DIRS = { he: '', en: 'en/', ar: 'ar/' };
 const SHOTS = ['patient', 'schedule', 'payments', 'types']; // assets/shots/<lang>-<name>.webp, in tour order
-const SHOT_SIZE = { patient: [1400, 1276], schedule: [1400, 1276], payments: [1400, 1276], types: [1400, 1276] };
+const SHOT_W = [768, 1536, 3072]; // widths of the shipped WebP files
+const SHOT_SIZE = { patient: [1536, 1400], schedule: [1536, 1400], payments: [1536, 1400], types: [1536, 1400] };
 const WM = '<span class="wm"><span class="wm-a">Clinic</span><span class="wm-b">Line</span></span>';
 const LANG_FONT = { he: 'heebo', ar: 'cairo', en: 'manrope' };
 const content = Object.fromEntries(LANGS.map((l) => [l, JSON.parse(fs.readFileSync(path.join(__dirname, 'content', `${l}.json`), 'utf8'))]));
@@ -46,11 +47,15 @@ const ROLE_ICONS = ['tooth', 'users', 'sliders'];
 const SECURITY_ICONS = ['database', 'lock', 'shield', 'clock', 'key', 'export'];
 const TRUST_ICONS = ['globe', 'database', 'shield', 'browser'];
 
-function frame(lang, name, { eager = false, cls = '' } = {}) {
+const srcset = (lang, name) => SHOT_W.map((w) => `@ROOT@assets/shots/${lang}-${name}-${w}.webp ${w}w`).join(', ');
+
+// sizes tells the browser how wide the picture really is on screen, so it fetches
+// the smallest file that still looks sharp on that device.
+function frame(lang, name, { eager = false, cls = '', sizes = '(min-width: 961px) 560px, calc(100vw - 40px)' } = {}) {
   const [w, h] = SHOT_SIZE[name];
   const alt = content[lang].tour.tabs[SHOTS.indexOf(name)].alt;
   return `<figure class="frame ${cls}"><div class="frame-bar" dir="ltr"><i></i><i></i><i></i><span>ClinicLine</span></div>`
-    + `<img src="@ROOT@assets/shots/${lang}-${name}.webp" width="${w}" height="${h}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}></figure>`;
+    + `<img src="@ROOT@assets/shots/${lang}-${name}-1536.webp" srcset="${srcset(lang, name)}" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}></figure>`;
 }
 
 function page(l) {
@@ -76,7 +81,7 @@ function page(l) {
     + `<span class="tour-tab-name">${esc(t.tab)}</span><span class="tour-tab-title">${esc(t.t)}</span>`
     + `<span class="tour-tab-more"><span class="tour-more-in"><span class="tour-d">${esc(t.d)}</span><ul>${t.points.map((p) => `<li>${icon('check', 'ico ico-sm')}<span>${esc(p)}</span></li>`).join('')}</ul></span></span>`
     + `<span class="tour-bar" aria-hidden="true"></span></button>`).join('');
-  const tourPanels = SHOTS.map((n, k) => `<div role="tabpanel" id="panel-${k}" aria-labelledby="tab-${k}" class="tour-shot${k === 0 ? ' is-on' : ''}">${frame(l, n)}</div>`).join('');
+  const tourPanels = SHOTS.map((n, k) => `<div role="tabpanel" id="panel-${k}" aria-labelledby="tab-${k}" class="tour-shot${k === 0 ? ' is-on' : ''}">${frame(l, n, { sizes: '(min-width: 961px) 600px, calc(100vw - 40px)' })}</div>`).join('');
 
   const strings = JSON.stringify({ lang: c.lang, contact: c.contact }).replace(/</g, '\\u003c');
   const ld = JSON.stringify({
@@ -104,7 +109,7 @@ function page(l) {
   <meta name="theme-color" content="#152a52">
   <link rel="icon" href="@ROOT@assets/icon.svg" type="image/svg+xml">
   <link rel="preload" href="@ROOT@assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-${LANG_FONT[l] !== 'manrope' ? `  <link rel="preload" href="@ROOT@assets/fonts/${LANG_FONT[l]}.woff2" as="font" type="font/woff2" crossorigin>\n` : ''}  <link rel="preload" href="@ROOT@assets/shots/${l}-patient.webp" as="image" type="image/webp">
+${LANG_FONT[l] !== 'manrope' ? `  <link rel="preload" href="@ROOT@assets/fonts/${LANG_FONT[l]}.woff2" as="font" type="font/woff2" crossorigin>\n` : ''}  <link rel="preload" as="image" type="image/webp" imagesrcset="${srcset(l, 'patient')}" imagesizes="(min-width: 961px) 520px, calc(100vw - 40px)">
   <link rel="stylesheet" href="@ROOT@assets/fonts.css">
   <link rel="stylesheet" href="@ROOT@assets/style.css">
   <script>document.documentElement.classList.add('js')</script>
@@ -139,8 +144,8 @@ ${LANG_FONT[l] !== 'manrope' ? `  <link rel="preload" href="@ROOT@assets/fonts/$
           </p>
         </div>
         <div class="stage rise" style="--d:200ms" id="stage">
-          ${frame(l, 'patient', { eager: true, cls: 'frame-main' })}
-          <figure class="stat-card"><img src="@ROOT@assets/shots/${l}-card.webp" width="918" height="276" alt="${esc(c.hero.cardAlt)}" loading="lazy" decoding="async"></figure>
+          ${frame(l, 'patient', { eager: true, cls: 'frame-main', sizes: '(min-width: 961px) 520px, calc(100vw - 40px)' })}
+          <figure class="stat-card"><img src="@ROOT@assets/shots/${l}-card-612.webp" srcset="@ROOT@assets/shots/${l}-card-612.webp 612w, @ROOT@assets/shots/${l}-card-1224.webp 1224w" sizes="220px" width="1224" height="366" alt="${esc(c.hero.cardAlt)}" loading="lazy" decoding="async"></figure>
         </div>
       </div>
     </section>

@@ -92,7 +92,7 @@ html[lang='en'] h3 { letter-spacing: -0.01em; }
 
 .stage { position: relative; padding-bottom: 56px; }
 .frame-main { transform: translateY(var(--py, 0px)); }
-.frame-main img { aspect-ratio: 1400 / 1276; }
+.frame-main img { aspect-ratio: 1536 / 1400; }
 .stat-card { position: absolute; inset-inline-start: -34px; bottom: 0; width: 220px; border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: 0 24px 44px -20px rgba(8, 18, 40, 0.7); transform: translateY(calc(var(--py, 0px) * -0.7)); }
 .stat-card img { display: block; width: 100%; height: auto; animation: float 7s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -151,11 +151,11 @@ html[lang='en'] h3 { letter-spacing: -0.01em; }
 .tour.live.paused .tour-tab.is-on .tour-bar::after { animation-play-state: paused; }
 .tour.live.manual .tour-tab.is-on .tour-bar::after { animation: none; transform: scaleX(1); opacity: 0.35; }
 @keyframes fill { to { transform: scaleX(1); } }
-.tour-stage { position: relative; aspect-ratio: 1400 / 1308; }
+.tour-stage { position: relative; aspect-ratio: 1536 / 1432; }
 .tour-shot { position: absolute; inset: 0; opacity: 0; transform: translateY(14px) scale(0.985); transition: opacity 0.6s var(--ease), transform 0.8s var(--ease); pointer-events: none; }
 .tour-shot.is-on { opacity: 1; transform: none; pointer-events: auto; }
 .tour-shot .frame { box-shadow: 0 30px 60px -30px rgba(21, 42, 82, 0.55), 0 2px 6px rgba(21, 42, 82, 0.1); }
-.tour-shot img { aspect-ratio: 1400 / 1276; }
+.tour-shot img { aspect-ratio: 1536 / 1400; }
 
 /* Roles */
 .roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }

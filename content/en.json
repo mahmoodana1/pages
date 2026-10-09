@@ -62,7 +62,7 @@
     ]
   },
   "roles": {
-    "title": "Each person sees what their job needs",
+    "title": "Each role sees what it needs",
     "items": [
       {
         "r": "Doctors",
@@ -121,7 +121,7 @@
       },
       {
         "t": "Your team signs in",
-        "d": "Everyone changes their temporary password at first sign-in, and you are running."
+        "d": "Temporary passwords are changed at first sign-in, and you are running."
       }
     ]
   },
