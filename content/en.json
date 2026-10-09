@@ -1,0 +1,194 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "langName": "English",
+  "meta": {
+    "title": "ClinicLine: dental clinic software for Hebrew, Arabic and English clinics",
+    "description": "Appointments, patient files, an interactive tooth chart, treatment plans and payments for dental clinics. Each clinic gets its own private system."
+  },
+  "nav": {
+    "features": "What it does",
+    "security": "Safety",
+    "start": "Getting started",
+    "faq": "Questions",
+    "demo": "Request a demo",
+    "menu": "Menu",
+    "skip": "Skip to content"
+  },
+  "hero": {
+    "h1": "The whole clinic, run from the tooth chart.",
+    "sub": "ClinicLine is software for dental clinics: appointments, patient files, treatment plans and payments in one place, in Hebrew, Arabic and English.",
+    "primary": "Request a demo",
+    "secondary": "See what it does"
+  },
+  "widget": {
+    "label": "Try the chart",
+    "hint": "Pick a tooth, then add a finding.",
+    "tooth": "Tooth {n}",
+    "caries": "Caries",
+    "extract": "To extract",
+    "planTitle": "Treatment plan",
+    "empty": "Nothing yet. A finding on a tooth becomes a treatment here.",
+    "proposed": "Proposed",
+    "completed": "Completed",
+    "markDone": "Mark completed",
+    "reset": "Start over",
+    "fillingName": "Composite filling",
+    "extractName": "Simple extraction",
+    "note": "A simplified preview. The real chart has all 32 teeth, with surfaces and notes."
+  },
+  "features": {
+    "title": "What it does",
+    "intro": "Everything the front desk, the doctors and the owner touch in a day.",
+    "items": [
+      {
+        "t": "Schedule",
+        "d": "A day view for each doctor and room. Double bookings are caught before they happen."
+      },
+      {
+        "t": "Patient files",
+        "d": "Contact details, medical history, allergies, appointments and notes. Find anyone by national ID or name."
+      },
+      {
+        "t": "Tooth chart",
+        "d": "Click a tooth to record a finding. The treatment is added to the plan, and completing it updates the chart."
+      },
+      {
+        "t": "Treatment plans",
+        "d": "Procedures come from your own price list and move from proposed to completed."
+      },
+      {
+        "t": "Payments and credit",
+        "d": "Take cash, card, bank transfer, check or Bit. Keep patient credit and see who owes what."
+      },
+      {
+        "t": "Scans",
+        "d": "Keep X-rays and photos with each patient, visible to doctors and admins only."
+      },
+      {
+        "t": "Several branches",
+        "d": "One account for all your branches. Patients are shared, staff are assigned per branch."
+      },
+      {
+        "t": "Three languages",
+        "d": "Hebrew, Arabic and English. Hebrew and Arabic are laid out right to left."
+      }
+    ]
+  },
+  "roles": {
+    "title": "Each person sees what their job needs",
+    "items": [
+      {
+        "r": "Doctors",
+        "d": "Their own agenda, patient charts, treatment plans and scans."
+      },
+      {
+        "r": "Reception",
+        "d": "The whole day's schedule, check-in and payments. No access to scans."
+      },
+      {
+        "r": "Admins",
+        "d": "Staff, branches, the price list, chart settings and who can do what."
+      }
+    ]
+  },
+  "security": {
+    "title": "Your patients' data stays yours",
+    "intro": "A patient file is private. This is how ClinicLine treats it.",
+    "items": [
+      {
+        "t": "Your own system",
+        "d": "Each clinic runs separately with its own database. Nothing is shared with other clinics."
+      },
+      {
+        "t": "Encrypted connection",
+        "d": "Everything travels over HTTPS."
+      },
+      {
+        "t": "Backed up every night",
+        "d": "Backups are kept away from the server, and we have tested restoring them."
+      },
+      {
+        "t": "Access is logged",
+        "d": "You can see who opened or changed a patient file, and when."
+      },
+      {
+        "t": "Careful sign-in",
+        "d": "New passwords must be changed at first sign-in, repeated wrong guesses lock the account, and two-step verification is available."
+      },
+      {
+        "t": "Take your data with you",
+        "d": "Ask at any time and we hand over a full export: patient records, tables and scans."
+      }
+    ]
+  },
+  "start": {
+    "title": "Getting started",
+    "steps": [
+      {
+        "t": "Tell us about your clinic",
+        "d": "How many branches, who works there, and which languages your team uses."
+      },
+      {
+        "t": "We set it up",
+        "d": "Your price list, your staff accounts and your clinic's name, in a system of its own."
+      },
+      {
+        "t": "Your team signs in",
+        "d": "Everyone changes their temporary password at first sign-in, and you are running."
+      }
+    ]
+  },
+  "demo": {
+    "title": "See it with sample data first",
+    "text": "Ask for a demo and we will send you a private link to a sample clinic, filled with made-up patients, that you can click through at your own pace.",
+    "cta": "Request a demo"
+  },
+  "faq": {
+    "title": "Questions",
+    "items": [
+      {
+        "q": "Do I need to install anything?",
+        "a": "No. It runs in a web browser on any computer, tablet or phone."
+      },
+      {
+        "q": "Where is my data kept?",
+        "a": "In your clinic's own database on a server we manage. We agree the hosting region with you."
+      },
+      {
+        "q": "Can I take my data with me if I leave?",
+        "a": "Yes. We export patient records, tables and scans whenever you ask."
+      },
+      {
+        "q": "Can several branches use it?",
+        "a": "Yes. Branches share one patient list, and each member of staff is assigned to the branches where they work."
+      },
+      {
+        "q": "Which languages does it support?",
+        "a": "Hebrew, Arabic and English. Each clinic can be set to one language, or let staff pick their own."
+      },
+      {
+        "q": "How much does it cost?",
+        "a": "It depends on the number of branches and staff. Send us a message and we will quote you."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Tell us about your clinic",
+    "intro": "Write a few lines and we will get back to you, usually within a working day.",
+    "name": "Your name",
+    "clinic": "Clinic name",
+    "reach": "Phone or email",
+    "message": "What would you like to know? (optional)",
+    "send": "Send message",
+    "sending": "Sending…",
+    "thanks": "Thanks, we have your message and will get back to you.",
+    "error": "The message did not send. Check your connection and try again.",
+    "mailNote": "Your email app will open with the message ready to send.",
+    "required": "Please add your name and a phone number or email."
+  },
+  "footer": {
+    "privacy": "This site has no cookies and no analytics.",
+    "rights": "ClinicLine"
+  }
+}
