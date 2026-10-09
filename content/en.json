@@ -170,7 +170,6 @@
     "sending": "Sending…",
     "thanks": "Thanks, we have your message and will get back to you.",
     "error": "The message did not send. Check your connection and try again.",
-    "mailNote": "Your email app will open with the message ready to send.",
     "required": "Please add your name and a phone number or email."
   },
   "footer": {

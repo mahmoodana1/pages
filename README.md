@@ -27,13 +27,9 @@ The look is `assets/style.css`; the behaviour (header, scroll reveals, product t
 
 They are captured from the app's working area at a 1040px-wide window with the browser's pixel density set to 4x, which is why the text stays crisp. To retake them: seed a demo clinic (`scripts/demo-tenant.js` in the clinic repo), capture the screens in each language, then for each one write the three widths with `magick in.png -resize 3072x -quality 82 -define webp:method=6 out-3072.webp` (and again for 1536 and 768). The site shows no photographs of people.
 
-## Make the contact form send to you
+## Contact form
 
-Until you do this, the form opens the visitor's email app with the message ready.
-
-1. Sign up at https://formspree.io and create a form that sends to your email.
-2. Copy the id from its URL (`https://formspree.io/f/<id>`).
-3. Put it in `assets/config.js` as `formspreeId`, commit and push.
+The form posts to https://formsubmit.co, which emails the address in `assets/config.js` (`mail`). No popups, no email app. The first message ever sent makes FormSubmit email that address an activation link; click it once and every later message arrives as a normal email.
 
 ## Other things worth doing
 
