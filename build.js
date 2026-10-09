@@ -10,8 +10,10 @@ const path = require('path');
 const SITE = 'https://mahmoodana1.github.io/pages/';
 const LANGS = ['he', 'en', 'ar'];
 const DIRS = { he: '', en: 'en/', ar: 'ar/' };
-const SHOTS = ['patient', 'schedule', 'types']; // assets/shots/<lang>-<name>.webp, in tour order
-const SHOT_SIZE = { patient: [1800, 1475], schedule: [1800, 1125], types: [1800, 1125] };
+const SHOTS = ['patient', 'schedule', 'payments', 'types']; // assets/shots/<lang>-<name>.webp, in tour order
+const SHOT_SIZE = { patient: [1400, 1276], schedule: [1400, 1276], payments: [1400, 1276], types: [1400, 1276] };
+const WM = '<span class="wm"><span class="wm-a">Clinic</span><span class="wm-b">Line</span></span>';
+const LANG_FONT = { he: 'heebo', ar: 'cairo', en: 'manrope' };
 const content = Object.fromEntries(LANGS.map((l) => [l, JSON.parse(fs.readFileSync(path.join(__dirname, 'content', `${l}.json`), 'utf8'))]));
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -76,7 +78,7 @@ function page(l) {
     + `<span class="tour-bar" aria-hidden="true"></span></button>`).join('');
   const tourPanels = SHOTS.map((n, k) => `<div role="tabpanel" id="panel-${k}" aria-labelledby="tab-${k}" class="tour-shot${k === 0 ? ' is-on' : ''}">${frame(l, n)}</div>`).join('');
 
-  const strings = JSON.stringify({ lang: c.lang, contact: c.contact, callout: c.callout }).replace(/</g, '\\u003c');
+  const strings = JSON.stringify({ lang: c.lang, contact: c.contact }).replace(/</g, '\\u003c');
   const ld = JSON.stringify({
     '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ClinicLine',
     applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser',
@@ -101,8 +103,8 @@ function page(l) {
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#152a52">
   <link rel="icon" href="@ROOT@assets/icon.svg" type="image/svg+xml">
-  <link rel="preload" href="@ROOT@assets/fonts/ibm-plex-sans-600.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="@ROOT@assets/shots/${l}-patient.webp" as="image" type="image/webp">
+  <link rel="preload" href="@ROOT@assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+${LANG_FONT[l] !== 'manrope' ? `  <link rel="preload" href="@ROOT@assets/fonts/${LANG_FONT[l]}.woff2" as="font" type="font/woff2" crossorigin>\n` : ''}  <link rel="preload" href="@ROOT@assets/shots/${l}-patient.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="@ROOT@assets/fonts.css">
   <link rel="stylesheet" href="@ROOT@assets/style.css">
   <script>document.documentElement.classList.add('js')</script>
@@ -112,7 +114,7 @@ function page(l) {
   <a class="skip" href="#main">${esc(c.nav.skip)}</a>
   <header class="top" id="top">
     <div class="wrap top-row">
-      <a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="30" height="30"><span>ClinicLine</span></a>
+      <a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="32" height="32">${WM}</a>
       <nav class="nav" aria-label="${esc(c.nav.menu)}">
         <a href="#features">${esc(c.nav.features)}</a>
         <a href="#tour">${esc(c.nav.tour)}</a>
@@ -138,12 +140,7 @@ function page(l) {
         </div>
         <div class="stage rise" style="--d:200ms" id="stage">
           ${frame(l, 'patient', { eager: true, cls: 'frame-main' })}
-          ${frame(l, 'schedule', { cls: 'frame-side' })}
-          <div class="callout" id="callout" aria-hidden="true">
-            <span class="callout-title">${esc(c.callout.title)}</span>
-            <span class="callout-name">${esc(c.callout.name)}</span>
-            <span class="callout-row"><b>${esc(c.callout.price)}</b><span class="callout-chip" data-state="proposed">${esc(c.callout.proposed)}</span></span>
-          </div>
+          <figure class="stat-card"><img src="@ROOT@assets/shots/${l}-card.webp" width="918" height="276" alt="${esc(c.hero.cardAlt)}" loading="lazy" decoding="async"></figure>
         </div>
       </div>
     </section>
@@ -222,7 +219,7 @@ function page(l) {
 
   <footer class="foot">
     <div class="wrap foot-grid">
-      <div class="foot-brand"><a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="30" height="30"><span>ClinicLine</span></a><p>${esc(c.footer.tagline)}</p></div>
+      <div class="foot-brand"><a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="32" height="32">${WM}</a><p>${esc(c.footer.tagline)}</p></div>
       <nav class="foot-nav" aria-label="${esc(c.nav.menu)}">
         <a href="#features">${esc(c.nav.features)}</a><a href="#tour">${esc(c.nav.tour)}</a><a href="#security">${esc(c.nav.security)}</a><a href="#faq">${esc(c.nav.faq)}</a><a href="#contact">${esc(c.nav.demo)}</a>
       </nav>

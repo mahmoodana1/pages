@@ -1,9 +1,8 @@
-// Page behaviour: header state, scroll reveals, hero parallax, the live
-// treatment card in the hero, and the auto-playing product tour.
+// Page behaviour: header state, scroll reveals, hero parallax and the
+// auto-playing product tour.
 // Everything here is decoration; the page reads fine without it.
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var S = JSON.parse(document.getElementById('strings').textContent);
 
   var top = document.getElementById('top');
   function onScroll() { top.classList.toggle('scrolled', window.scrollY > 24); }
@@ -35,16 +34,6 @@
       if (!queued) { queued = true; window.requestAnimationFrame(drift); }
     }, { passive: true });
     drift();
-  }
-
-  var chip = document.querySelector('.callout-chip');
-  if (chip && !reduce) {
-    var done = false;
-    window.setInterval(function () {
-      done = !done;
-      chip.dataset.state = done ? 'completed' : 'proposed';
-      chip.textContent = done ? S.callout.completed : S.callout.proposed;
-    }, 3400);
   }
 
   var tour = document.getElementById('tour-ui');

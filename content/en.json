@@ -20,7 +20,8 @@
     "h1": "The whole clinic, run from the tooth chart.",
     "sub": "ClinicLine is software for dental clinics: appointments, patient files, treatment plans and payments in one place, in Hebrew, Arabic and English.",
     "primary": "Request a demo",
-    "secondary": "See what it does"
+    "secondary": "See what it does",
+    "cardAlt": "Total received this month in ClinicLine"
   },
   "features": {
     "title": "What it does",
@@ -222,6 +223,17 @@
         "alt": "ClinicLine day schedule with rooms side by side"
       },
       {
+        "tab": "Payments",
+        "t": "Close the register in a minute",
+        "d": "See what came in today, this week or this month, split by cash, card, transfer, check and Bit.",
+        "points": [
+          "Every payment is tied to a patient and a treatment.",
+          "Patient credit is tracked, so you can see who owes what.",
+          "Print the day's summary."
+        ],
+        "alt": "ClinicLine payments screen with totals by payment method"
+      },
+      {
         "tab": "Your settings",
         "t": "Set it up the way your clinic works",
         "d": "Choose which procedure each chart condition creates, and what the tooth becomes when it is done.",
@@ -233,12 +245,5 @@
         "alt": "ClinicLine settings screen for chart condition types"
       }
     ]
-  },
-  "callout": {
-    "title": "Tooth 14",
-    "name": "Composite filling",
-    "price": "₪450",
-    "proposed": "Proposed",
-    "completed": "Completed"
   }
 }
