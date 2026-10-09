@@ -10,67 +10,80 @@ const path = require('path');
 const SITE = 'https://mahmoodana1.github.io/pages/';
 const LANGS = ['he', 'en', 'ar'];
 const DIRS = { he: '', en: 'en/', ar: 'ar/' };
+const SHOTS = ['patient', 'schedule', 'types']; // assets/shots/<lang>-<name>.webp, in tour order
+const SHOT_SIZE = { patient: [1800, 1475], schedule: [1800, 1125], types: [1800, 1125] };
 const content = Object.fromEntries(LANGS.map((l) => [l, JSON.parse(fs.readFileSync(path.join(__dirname, 'content', `${l}.json`), 'utf8'))]));
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// Universal numbering across the upper arch, as in the app. The preview shows
-// teeth 3-14 (wisdom teeth and second molars left out so the teeth can be larger).
-const TOOTH_SCALE = { molar: 2.5, premolar: 2.2, canine: 2.15, incisor: 1.9 };
-function toothType(n) {
-  const p = n <= 8 ? n : 17 - n;
-  if (p <= 3) return 'molar';
-  if (p <= 5) return 'premolar';
-  if (p === 6) return 'canine';
-  return 'incisor';
-}
-const CROWN = 'M16 9.6C14.6 8.4 13.2 7.8 11.6 7.8 8.9 7.8 7.2 9.9 7.2 12.8c0 2.4 1 4.1 1.6 6.4.6 2.4.9 5.4 2.6 5.4 1.6 0 1.7-2.7 2.3-4.3.4-1 1.2-1.5 2.3-1.5s1.9.5 2.3 1.5c.6 1.6.7 4.3 2.3 4.3 1.7 0 2-3 2.6-5.4.6-2.3 1.6-4 1.6-6.4 0-2.9-1.7-5-4.4-5-1.6 0-3 .6-4.4 1.8z';
+const TOOTH = 'M16 9.6C14.6 8.4 13.2 7.8 11.6 7.8 8.9 7.8 7.2 9.9 7.2 12.8c0 2.4 1 4.1 1.6 6.4.6 2.4.9 5.4 2.6 5.4 1.6 0 1.7-2.7 2.3-4.3.4-1 1.2-1.5 2.3-1.5s1.9.5 2.3 1.5c.6 1.6.7 4.3 2.3 4.3 1.7 0 2-3 2.6-5.4.6-2.3 1.6-4 1.6-6.4 0-2.9-1.7-5-4.4-5-1.6 0-3 .6-4.4 1.8z';
+const ICONS = {
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6"/>',
+  tooth: `<g transform="translate(-1.2 -1.2) scale(.82)"><path d="${TOOTH}"/></g>`,
+  clipboard: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM8 12h8M8 16h5"/>',
+  wallet: '<path d="M3 7a2 2 0 0 1 2-2h13v4"/><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="16.5" cy="13.5" r="1.2"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/>',
+  building: '<rect x="4" y="3" width="10" height="18" rx="1"/><path d="M14 9h6v12h-6M8 7h2M8 11h2M8 15h2"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  shield: '<path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  database: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+  export: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  browser: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+  users: '<circle cx="9" cy="8" r="3"/><path d="M3 19c0-3.3 2.7-5 6-5s6 1.7 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.4 0 4 1.3 4 4"/>',
+  sliders: '<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+};
+const icon = (name, cls = 'ico') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
 
-function chartSvg(c) {
-  const step = 44;
-  const first = 3;
-  const last = 14;
-  let teeth = '';
-  for (let n = first; n <= last; n++) {
-    const s = TOOTH_SCALE[toothType(n)];
-    const cx = (n - first) * step + step / 2;
-    const x = cx - 16 * s; // the glyph's centre is x=16 in the 32-unit icon box
-    const base = 66;
-    const y = base - 24.6 * s;
-    const label = c.widget.tooth.replace('{n}', n);
-    teeth += `<g class="tooth" data-n="${n}" role="button" tabindex="0" aria-pressed="false" aria-label="${esc(label)}">`
-      + `<rect class="hit" x="${cx - step / 2}" y="0" width="${step}" height="94"/>`
-      + `<g transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${s})"><path class="crown" d="${CROWN}"/></g>`
-      + `<path class="cross" d="M${cx - 12} ${base - 30}L${cx + 12} ${base - 6}M${cx + 12} ${base - 30}L${cx - 12} ${base - 6}"/>`
-      + `<text class="num" x="${cx}" y="88" text-anchor="middle">${n}</text></g>`;
-  }
-  return `<svg class="arch" viewBox="0 0 ${(last - first + 1) * step} 94" role="group" aria-label="${esc(c.widget.label)}">${teeth}</svg>`;
+const FEATURE_ICONS = ['calendar', 'user', 'tooth', 'clipboard', 'wallet', 'image', 'building', 'globe'];
+const ROLE_ICONS = ['tooth', 'users', 'sliders'];
+const SECURITY_ICONS = ['database', 'lock', 'shield', 'clock', 'key', 'export'];
+const TRUST_ICONS = ['globe', 'database', 'shield', 'browser'];
+
+function frame(lang, name, { eager = false, cls = '' } = {}) {
+  const [w, h] = SHOT_SIZE[name];
+  const alt = content[lang].tour.tabs[SHOTS.indexOf(name)].alt;
+  return `<figure class="frame ${cls}"><div class="frame-bar" dir="ltr"><i></i><i></i><i></i><span>ClinicLine</span></div>`
+    + `<img src="@ROOT@assets/shots/${lang}-${name}.webp" width="${w}" height="${h}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}></figure>`;
 }
 
 function page(l) {
   const c = content[l];
   const root = l === 'he' ? '' : '../';
   const url = SITE + DIRS[l];
+  const R = (html) => html.replace(/@ROOT@/g, root);
   const alt = LANGS.map((x) => `<link rel="alternate" hreflang="${x}" href="${SITE + DIRS[x]}">`).join('\n  ')
     + `\n  <link rel="alternate" hreflang="x-default" href="${SITE}">`;
   const langLinks = LANGS.map((x) => (x === l
     ? `<a href="${root + DIRS[x]}" lang="${x}" hreflang="${x}" aria-current="true">${esc(content[x].langName)}</a>`
     : `<a href="${root + DIRS[x]}" lang="${x}" hreflang="${x}">${esc(content[x].langName)}</a>`)).join('');
 
-  const features = c.features.items.map((i) => `<li><h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></li>`).join('');
-  const roles = c.roles.items.map((i) => `<li><h3>${esc(i.r)}</h3><p>${esc(i.d)}</p></li>`).join('');
-  const security = c.security.items.map((i) => `<li><h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></li>`).join('');
-  const steps = c.start.steps.map((i, k) => `<li><span class="step-n" aria-hidden="true">${k + 1}</span><h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></li>`).join('');
+  const card = (items, icons, cls) => items.map((i, k) => `<li class="${cls}" data-reveal style="--d:${(k % 4) * 70}ms">${icon(icons[k], 'ico ico-lg')}<h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></li>`).join('');
+  const trust = c.trust.map((i, k) => `<li>${icon(TRUST_ICONS[k])}<div><h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></div></li>`).join('');
+  const features = card(c.features.items, FEATURE_ICONS, 'card');
+  const roles = card(c.roles.items.map((i) => ({ t: i.r, d: i.d })), ROLE_ICONS, 'role');
+  const security = card(c.security.items, SECURITY_ICONS, 'sec');
+  const steps = c.start.steps.map((i, k) => `<li data-reveal style="--d:${k * 120}ms"><span class="step-n" aria-hidden="true">${k + 1}</span><h3>${esc(i.t)}</h3><p>${esc(i.d)}</p></li>`).join('');
   const faq = c.faq.items.map((i) => `<details><summary>${esc(i.q)}</summary><p>${esc(i.a)}</p></details>`).join('');
 
-  const strings = JSON.stringify({ lang: c.lang, ...c.widget, contact: c.contact }).replace(/</g, '\\u003c');
+  const tourTabs = c.tour.tabs.map((t, k) => `<button type="button" role="tab" id="tab-${k}" aria-selected="${k === 0}" aria-controls="panel-${k}" tabindex="${k === 0 ? 0 : -1}" class="tour-tab${k === 0 ? ' is-on' : ''}" data-i="${k}">`
+    + `<span class="tour-tab-name">${esc(t.tab)}</span><span class="tour-tab-title">${esc(t.t)}</span>`
+    + `<span class="tour-tab-more"><span class="tour-more-in"><span class="tour-d">${esc(t.d)}</span><ul>${t.points.map((p) => `<li>${icon('check', 'ico ico-sm')}<span>${esc(p)}</span></li>`).join('')}</ul></span></span>`
+    + `<span class="tour-bar" aria-hidden="true"></span></button>`).join('');
+  const tourPanels = SHOTS.map((n, k) => `<div role="tabpanel" id="panel-${k}" aria-labelledby="tab-${k}" class="tour-shot${k === 0 ? ' is-on' : ''}">${frame(l, n)}</div>`).join('');
+
+  const strings = JSON.stringify({ lang: c.lang, contact: c.contact, callout: c.callout }).replace(/</g, '\\u003c');
   const ld = JSON.stringify({
     '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ClinicLine',
     applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser',
     description: c.meta.description, inLanguage: ['he', 'ar', 'en'], url: SITE,
   }).replace(/</g, '\\u003c');
 
-  return `<!doctype html>
+  return R(`<!doctype html>
 <html lang="${c.lang}" dir="${c.dir}">
 <head>
   <meta charset="utf-8">
@@ -86,26 +99,29 @@ function page(l) {
   <meta property="og:url" content="${url}">
   <meta property="og:image" content="${SITE}assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#1B366A">
-  <link rel="icon" href="${root}assets/icon.svg" type="image/svg+xml">
-  <link rel="preload" href="${root}assets/fonts/ibm-plex-sans-600.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${root}assets/fonts.css">
-  <link rel="stylesheet" href="${root}assets/style.css">
+  <meta name="theme-color" content="#152a52">
+  <link rel="icon" href="@ROOT@assets/icon.svg" type="image/svg+xml">
+  <link rel="preload" href="@ROOT@assets/fonts/ibm-plex-sans-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="@ROOT@assets/shots/${l}-patient.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="@ROOT@assets/fonts.css">
+  <link rel="stylesheet" href="@ROOT@assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">${ld}</script>
 </head>
 <body>
   <a class="skip" href="#main">${esc(c.nav.skip)}</a>
-  <header class="top">
+  <header class="top" id="top">
     <div class="wrap top-row">
-      <a class="brand" href="${root + DIRS[l]}"><img src="${root}assets/icon.svg" alt="" width="28" height="28"><span>ClinicLine</span></a>
+      <a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="30" height="30"><span>ClinicLine</span></a>
       <nav class="nav" aria-label="${esc(c.nav.menu)}">
         <a href="#features">${esc(c.nav.features)}</a>
+        <a href="#tour">${esc(c.nav.tour)}</a>
         <a href="#security">${esc(c.nav.security)}</a>
         <a href="#start">${esc(c.nav.start)}</a>
         <a href="#faq">${esc(c.nav.faq)}</a>
       </nav>
       <div class="langs" aria-label="Language">${langLinks}</div>
-      <a class="btn btn-small" href="#contact">${esc(c.nav.demo)}</a>
+      <a class="btn btn-small btn-top" href="#contact">${esc(c.nav.demo)}</a>
     </div>
   </header>
 
@@ -113,79 +129,85 @@ function page(l) {
     <section class="hero">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <h1>${esc(c.hero.h1)}</h1>
-          <p class="lead">${esc(c.hero.sub)}</p>
-          <p class="hero-actions">
-            <a class="btn" href="#contact">${esc(c.hero.primary)}</a>
-            <a class="btn btn-quiet" href="#features">${esc(c.hero.secondary)}</a>
+          <h1 class="rise" style="--d:0ms">${esc(c.hero.h1)}</h1>
+          <p class="lead rise" style="--d:120ms">${esc(c.hero.sub)}</p>
+          <p class="hero-actions rise" style="--d:240ms">
+            <a class="btn btn-light" href="#contact">${esc(c.hero.primary)}</a>
+            <a class="btn btn-ghost" href="#tour">${esc(c.hero.secondary)}</a>
           </p>
         </div>
-        <div class="chart-card" id="chart" data-lang="${c.lang}">
-          <p class="chart-label">${esc(c.widget.label)}</p>
-          <div class="arch-wrap" dir="ltr">${chartSvg(c)}</div>
-          <div class="chart-actions">
-            <p class="chart-hint" aria-live="polite">${esc(c.widget.hint)}</p>
-            <div class="chart-buttons">
-              <button type="button" class="chip chip-caries" data-add="caries" disabled>${esc(c.widget.caries)}</button>
-              <button type="button" class="chip chip-extract" data-add="extract" disabled>${esc(c.widget.extract)}</button>
-            </div>
+        <div class="stage rise" style="--d:200ms" id="stage">
+          ${frame(l, 'patient', { eager: true, cls: 'frame-main' })}
+          ${frame(l, 'schedule', { cls: 'frame-side' })}
+          <div class="callout" id="callout" aria-hidden="true">
+            <span class="callout-title">${esc(c.callout.title)}</span>
+            <span class="callout-name">${esc(c.callout.name)}</span>
+            <span class="callout-row"><b>${esc(c.callout.price)}</b><span class="callout-chip" data-state="proposed">${esc(c.callout.proposed)}</span></span>
           </div>
-          <div class="plan">
-            <div class="plan-head"><h2>${esc(c.widget.planTitle)}</h2><button type="button" class="link" data-reset hidden>${esc(c.widget.reset)}</button></div>
-            <ul class="plan-list" aria-live="polite"></ul>
-            <p class="plan-empty">${esc(c.widget.empty)}</p>
-          </div>
-          <p class="chart-note">${esc(c.widget.note)}</p>
         </div>
       </div>
+    </section>
+
+    <section class="trust" aria-label="ClinicLine">
+      <div class="wrap"><ul class="trust-list">${trust}</ul></div>
     </section>
 
     <section class="section" id="features">
       <div class="wrap">
-        <div class="section-head"><h2>${esc(c.features.title)}</h2><p>${esc(c.features.intro)}</p></div>
-        <ul class="feature-list">${features}</ul>
+        <div class="section-head" data-reveal><h2>${esc(c.features.title)}</h2><p>${esc(c.features.intro)}</p></div>
+        <ul class="cards">${features}</ul>
       </div>
     </section>
 
-    <section class="section section-wash" id="roles">
+    <section class="section section-wash" id="tour">
       <div class="wrap">
-        <div class="section-head"><h2>${esc(c.roles.title)}</h2></div>
+        <div class="section-head" data-reveal><h2>${esc(c.tour.title)}</h2><p>${esc(c.tour.intro)}</p></div>
+        <div class="tour" id="tour-ui" data-reveal>
+          <div class="tour-tabs" role="tablist" aria-orientation="vertical">${tourTabs}</div>
+          <div class="tour-stage">${tourPanels}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roles">
+      <div class="wrap">
+        <div class="section-head" data-reveal><h2>${esc(c.roles.title)}</h2></div>
         <ul class="roles">${roles}</ul>
       </div>
     </section>
 
     <section class="section section-deep" id="security">
       <div class="wrap">
-        <div class="section-head"><h2>${esc(c.security.title)}</h2><p>${esc(c.security.intro)}</p></div>
-        <ul class="feature-list feature-list-dark">${security}</ul>
+        <div class="section-head" data-reveal><h2>${esc(c.security.title)}</h2><p>${esc(c.security.intro)}</p></div>
+        <ul class="secs">${security}</ul>
       </div>
     </section>
 
     <section class="section" id="start">
       <div class="wrap">
-        <div class="section-head"><h2>${esc(c.start.title)}</h2></div>
-        <ol class="steps">${steps}</ol>
+        <div class="section-head" data-reveal><h2>${esc(c.start.title)}</h2></div>
+        <ol class="steps" id="steps">${steps}</ol>
       </div>
     </section>
 
-    <section class="section section-wash demo" id="demo">
-      <div class="wrap demo-row">
-        <div><h2>${esc(c.demo.title)}</h2><p>${esc(c.demo.text)}</p></div>
-        <a class="btn" href="#contact">${esc(c.demo.cta)}</a>
+    <section class="demo" id="demo">
+      <div class="wrap demo-grid">
+        <div data-reveal><h2>${esc(c.demo.title)}</h2><p>${esc(c.demo.text)}</p><p><a class="btn btn-light" href="#contact">${esc(c.demo.cta)}</a></p></div>
+        <div class="demo-peek" data-reveal style="--d:120ms">${frame(l, 'types')}</div>
       </div>
     </section>
 
     <section class="section" id="faq">
       <div class="wrap faq-wrap">
-        <div class="section-head"><h2>${esc(c.faq.title)}</h2></div>
-        <div class="faq">${faq}</div>
+        <div class="section-head" data-reveal><h2>${esc(c.faq.title)}</h2></div>
+        <div class="faq" data-reveal>${faq}</div>
       </div>
     </section>
 
     <section class="section section-wash" id="contact">
       <div class="wrap contact-grid">
-        <div class="section-head"><h2>${esc(c.contact.title)}</h2><p>${esc(c.contact.intro)}</p></div>
-        <form class="form" id="contact-form" novalidate>
+        <div class="section-head" data-reveal><h2>${esc(c.contact.title)}</h2><p>${esc(c.contact.intro)}</p></div>
+        <form class="form" id="contact-form" novalidate data-reveal style="--d:100ms">
           <label>${esc(c.contact.name)}<input name="name" autocomplete="name" required></label>
           <label>${esc(c.contact.clinic)}<input name="clinic" autocomplete="organization"></label>
           <label>${esc(c.contact.reach)}<input name="reach" autocomplete="email" required></label>
@@ -199,19 +221,23 @@ function page(l) {
   </main>
 
   <footer class="foot">
-    <div class="wrap foot-row">
-      <span>© ${new Date().getFullYear()} ${esc(c.footer.rights)}</span>
-      <span>${esc(c.footer.privacy)}</span>
+    <div class="wrap foot-grid">
+      <div class="foot-brand"><a class="brand" href="@ROOT@${DIRS[l]}"><img src="@ROOT@assets/icon.svg" alt="" width="30" height="30"><span>ClinicLine</span></a><p>${esc(c.footer.tagline)}</p></div>
+      <nav class="foot-nav" aria-label="${esc(c.nav.menu)}">
+        <a href="#features">${esc(c.nav.features)}</a><a href="#tour">${esc(c.nav.tour)}</a><a href="#security">${esc(c.nav.security)}</a><a href="#faq">${esc(c.nav.faq)}</a><a href="#contact">${esc(c.nav.demo)}</a>
+      </nav>
+      <div class="foot-langs">${langLinks}</div>
     </div>
+    <div class="wrap foot-row"><span>© ${new Date().getFullYear()} ${esc(c.footer.rights)}</span><span>${esc(c.footer.privacy)}</span></div>
   </footer>
 
   <script type="application/json" id="strings">${strings}</script>
-  <script src="${root}assets/config.js"></script>
-  <script src="${root}assets/chart.js" defer></script>
-  <script src="${root}assets/form.js" defer></script>
+  <script src="@ROOT@assets/config.js"></script>
+  <script src="@ROOT@assets/app.js" defer></script>
+  <script src="@ROOT@assets/form.js" defer></script>
 </body>
 </html>
-`;
+`);
 }
 
 for (const l of LANGS) {

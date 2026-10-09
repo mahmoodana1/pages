@@ -15,7 +15,11 @@ node build.js
 
 That rewrites `index.html`, `en/index.html`, `ar/index.html` and `sitemap.xml`. Commit and push, and GitHub Pages updates within a minute or two.
 
-The look is `assets/style.css`. The hero tooth chart is `assets/chart.js`.
+The look is `assets/style.css`; the behaviour (header, scroll reveals, product tour, hero card) is `assets/app.js`.
+
+## The screenshots
+
+`assets/shots/<lang>-<screen>.webp` are real screens from ClinicLine with a fictional demo clinic (all patient and staff names made up). To retake them, seed a demo clinic (`scripts/demo-tenant.js` in the clinic repo), capture the three screens in each language and convert with `magick in.png -resize 1800x -quality 80 out.webp`. The site shows no photographs of people.
 
 ## Make the contact form send to you
 

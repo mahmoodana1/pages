@@ -13,29 +13,14 @@
     "faq": "Questions",
     "demo": "Request a demo",
     "menu": "Menu",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "tour": "See it"
   },
   "hero": {
     "h1": "The whole clinic, run from the tooth chart.",
     "sub": "ClinicLine is software for dental clinics: appointments, patient files, treatment plans and payments in one place, in Hebrew, Arabic and English.",
     "primary": "Request a demo",
     "secondary": "See what it does"
-  },
-  "widget": {
-    "label": "Try the chart",
-    "hint": "Pick a tooth, then add a finding.",
-    "tooth": "Tooth {n}",
-    "caries": "Caries",
-    "extract": "To extract",
-    "planTitle": "Treatment plan",
-    "empty": "Nothing yet. A finding on a tooth becomes a treatment here.",
-    "proposed": "Proposed",
-    "completed": "Completed",
-    "markDone": "Mark completed",
-    "reset": "Start over",
-    "fillingName": "Composite filling",
-    "extractName": "Simple extraction",
-    "note": "A simplified preview. The real chart has all 32 teeth, with surfaces and notes."
   },
   "features": {
     "title": "What it does",
@@ -189,6 +174,71 @@
   },
   "footer": {
     "privacy": "This site has no cookies and no analytics.",
-    "rights": "ClinicLine"
+    "rights": "ClinicLine",
+    "tagline": "Dental clinic software for Hebrew, Arabic and English clinics."
+  },
+  "trust": [
+    {
+      "t": "Three languages",
+      "d": "Hebrew, Arabic and English, right to left where it should be."
+    },
+    {
+      "t": "A private system per clinic",
+      "d": "Its own database, shared with no one."
+    },
+    {
+      "t": "Backed up every night",
+      "d": "Copies kept away from the server."
+    },
+    {
+      "t": "Works in a browser",
+      "d": "Nothing to install on the clinic computers."
+    }
+  ],
+  "tour": {
+    "title": "See it working",
+    "intro": "Real screens from ClinicLine, with made-up demo data.",
+    "tabs": [
+      {
+        "tab": "Tooth chart",
+        "t": "Record a finding. The treatment follows.",
+        "d": "Click a tooth and choose a condition. ClinicLine adds the treatment to the doctor's plan, priced from your list.",
+        "points": [
+          "Move it from proposed to completed on the same screen.",
+          "Completing a filling or an extraction updates the chart for you.",
+          "Add the surface and notes without leaving the tooth."
+        ],
+        "alt": "ClinicLine patient screen with the tooth chart and a treatment awaiting approval"
+      },
+      {
+        "tab": "Schedule",
+        "t": "A day without double bookings",
+        "d": "Every doctor and room side by side. Each visit shows who is coming, with whom, and why.",
+        "points": [
+          "Conflicts are caught before they are saved.",
+          "Completed and no-show visits are marked at a glance.",
+          "Click a free slot to book it."
+        ],
+        "alt": "ClinicLine day schedule with rooms side by side"
+      },
+      {
+        "tab": "Your settings",
+        "t": "Set it up the way your clinic works",
+        "d": "Choose which procedure each chart condition creates, and what the tooth becomes when it is done.",
+        "points": [
+          "Add your own condition types.",
+          "Names in Hebrew, Arabic and English.",
+          "Hide the ones you do not use."
+        ],
+        "alt": "ClinicLine settings screen for chart condition types"
+      }
+    ]
+  },
+  "callout": {
+    "title": "Tooth 14",
+    "name": "Composite filling",
+    "price": "₪450",
+    "proposed": "Proposed",
+    "completed": "Completed"
   }
 }
